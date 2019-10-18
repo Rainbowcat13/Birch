@@ -16,8 +16,12 @@ int main(int argc, char *argv[])
         tree.insert(i);
     }
 
-    for (auto elem: tree) {
-        qDebug() << elem.key << " JOPA";
+    tree.remove(3);
+    tree.remove(9);
+    tree.remove(1);
+
+    for (auto it = tree.begin(); it != nullptr; it=it->next()) {
+        qDebug() << it->key;
     }
 
 }

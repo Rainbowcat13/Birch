@@ -25,15 +25,23 @@ struct Node {
         return b->key != key;
     }
 
-    Node* operator++(int) {
-        if (right == nullptr) {
-            return parent;
+    Node* next() {
+        Node* p;
+        if (right != nullptr) {
+            p = right;
+            while (p->left != nullptr) {
+                p = p->left;
+            }
+            return p;
         }
-        Node* p = right;
-        while (p->left != nullptr) {
-            p = p->left;
+        p = this;
+        while (p->parent != nullptr) {
+            if (p->parent->left == p) {
+                return p->parent;
+            }
+            p = p->parent;
         }
-        return p;
+        return nullptr;
     }
 };
 

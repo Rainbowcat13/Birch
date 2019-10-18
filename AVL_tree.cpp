@@ -6,6 +6,12 @@ int height(Node* p) {
     return p == nullptr ? 0 : p->h;
 }
 
+void recountHeight(Node*& p) {
+    if (p == nullptr)
+        return;
+    p->h = std::max(height(p->left), height(p->right)) + 1;
+}
+
 bool isLeaf(Node* p) {
     return p->left == nullptr && p->right == nullptr;
 }
@@ -15,10 +21,28 @@ AVL_tree::AVL_tree() {
 }
 
 Node* AVL_tree::begin() {
+    if (min == nullptr) {
+        min = tree;
+    }
+    if (min == nullptr) {
+        return min;
+    }
+    while (min->left != nullptr) {
+        min = min->left;
+    }
     return min;
 }
 
 Node* AVL_tree::end() {
+    if (max == nullptr) {
+        max = tree;
+    }
+    if (max == nullptr) {
+        return max;
+    }
+    while (max->right != nullptr) {
+        max = max->right;
+    }
     return max;
 }
 
@@ -48,7 +72,8 @@ void AVL_tree::insertNode(Node *nw, Node *&cur, Node* p) {
 void AVL_tree::balance(Node *&p) {
     int hl = height(p->left);
     int hr = height(p->right);
-    p->h = std::max(hl, hr) + 1;
+    auto cpp = p->parent;
+    recountHeight(p);
     if (abs(hl - hr) < 2) {
         return;
     }
@@ -58,15 +83,21 @@ void AVL_tree::balance(Node *&p) {
         int hc = height(q->right);
         if (hnl >= hc) {
             p->left = q->right;
+            if (q->right != nullptr) q->right->parent = p;
             q->right = p;
+            if (p != nullptr) p->parent = q;
             p = q;
         }
         else {
             Node* r = q->right;
             p->left = r->right;
+            if (r->right != nullptr) r->right->parent = p;
             q->right = r->left;
+            if (r->left != nullptr) r->left->parent = q;
             r->left = q;
+            if (q != nullptr) q->parent = r;
             r->right = p;
+            if (p != nullptr) p->parent = r;
             p = r;
         }
     }
@@ -76,18 +107,27 @@ void AVL_tree::balance(Node *&p) {
         int hc = height(q->left);
         if (hnr >= hc) {
             p->right = q->left;
+            if (q->left != nullptr) q->left->parent = p;
             q->left = p;
+            if (p != nullptr) p->parent = q;
             p = q;
         }
         else {
             Node* r = q->left;
             p->right = r->left;
+            if (r->left != nullptr) r->left->parent = p;
             q->left = r->right;
+            if (r->right != nullptr) r->right->parent = q;
             r->left = p;
+            if (p != nullptr) p->parent = r;
             r->right = q;
             p = r;
         }
     }
+    p->parent = cpp;
+    recountHeight(p->left);
+    recountHeight(p->right);
+    recountHeight(p);
 }
 
 Node* AVL_tree::findNode(int val, Node* cur) {
@@ -116,13 +156,14 @@ void AVL_tree::remove(int value) {
 }
 
 void AVL_tree::removeNode(Node *rm) {
-    if (isLeaf(rm)) {
-        delete rm;
-        return;
-    }
     Node* newcur;
-    if (rm->left == nullptr) {
-        Node* newcur = rm->right;
+    bool f = 0;
+    if (isLeaf(rm)) {
+        newcur = rm;
+        f = 1;
+    }
+    else if (rm->left == nullptr) {
+        newcur = rm->right;
         while (newcur->left != nullptr) {
             newcur = newcur->left;
         }
@@ -130,14 +171,24 @@ void AVL_tree::removeNode(Node *rm) {
         rm = newcur;
     }
     else {
-        Node* newcur = rm->left;
+        newcur = rm->left;
         while (newcur->right != nullptr) {
             newcur = newcur->right;
         }
         delete rm;
         rm = newcur;
     }
+    if (newcur->parent != nullptr) {
+        if (newcur->parent->left == newcur) {
+            newcur->parent->left = nullptr;
+        } else {
+            newcur->parent->right = nullptr;
+        }
+    }
     Node* above = newcur->parent;
+    if (f) {
+        delete newcur;
+    }
     newcur = nullptr;
     while (above != nullptr) {
         balance(above);
