@@ -1,7 +1,7 @@
 #ifndef BIRCH_NODE_H
 #define BIRCH_NODE_H
+#include <iostream>
 
-//template<typename T>
 struct Node {
     Node *right, *left, *parent;
     int key, color, h;// T key
@@ -44,6 +44,5 @@ struct Node {
         return nullptr;
     }
 };
-
 
 #endif

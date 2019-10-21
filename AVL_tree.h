@@ -1,7 +1,10 @@
 #ifndef BIRCH_AVL_TREE_H
 #define BIRCH_AVL_TREE_H
 #include "Node.h"
-#include <QVector>
+#include "AVL_tree.h"
+#include "Node.h"
+#include <stdexcept>
+#include "commoncode.h"
 
 class AVL_tree {
     Node *tree, *min, *max;
@@ -12,14 +15,11 @@ class AVL_tree {
 
 public:
     AVL_tree();
-    //AVL_tree(QVector<int> values);
     void insert(int newValue);
     void remove(int value);
     Node* find(int value);
     Node* begin();
     Node* end();
-
-
 };
 
 

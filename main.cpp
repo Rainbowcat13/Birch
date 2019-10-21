@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "AVL_tree.h"
+#include "RB_tree.h"
 #include <QApplication>
 #include <iostream>
 #include <QDebug>
@@ -10,18 +11,20 @@ int main(int argc, char *argv[])
 //    MainWindow w;
 //    w.show();
 //    return a.exec();
-    AVL_tree tree = AVL_tree();
+    AVL_tree atree = AVL_tree();
+    RB_tree rtree = RB_tree();
 
     for (int i = 1; i < 10; i++) {
-        tree.insert(i);
+        atree.insert(i);
+        rtree.insert(i);
     }
 
-    tree.remove(3);
-    tree.remove(9);
-    tree.remove(1);
+//    atree.remove(3);
+//    atree.remove(9);
+//    atree.remove(1);
 
-    for (auto it = tree.begin(); it != nullptr; it=it->next()) {
-        qDebug() << it->key;
-    }
+//    for (auto it = rtree.begin(); it != nullptr; it=it->next()) {
+//        qDebug() << it->key;
+//    }
 
 }

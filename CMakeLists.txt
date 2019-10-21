@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.9)
 project(Birch)
 
 set(CMAKE_AUTOMOC ON)
@@ -13,9 +13,11 @@ endif()
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 add_executable(Birch
-        AVL_tree.cpp
         mainwindow.cpp
+        commoncode.cpp
         main.cpp
+        AVL_tree.cpp
+        RB_tree.cpp
         )
 
 target_link_libraries(Birch Qt5::Widgets)

@@ -1,20 +1,4 @@
 #include "AVL_tree.h"
-#include <QVector>
-#include <stdexcept>
-
-int height(Node* p) {
-    return p == nullptr ? 0 : p->h;
-}
-
-void recountHeight(Node*& p) {
-    if (p == nullptr)
-        return;
-    p->h = std::max(height(p->left), height(p->right)) + 1;
-}
-
-bool isLeaf(Node* p) {
-    return p->left == nullptr && p->right == nullptr;
-}
 
 AVL_tree::AVL_tree() {
     tree = min = max = nullptr;
@@ -70,59 +54,18 @@ void AVL_tree::insertNode(Node *nw, Node *&cur, Node* p) {
 }
 
 void AVL_tree::balance(Node *&p) {
-    int hl = height(p->left);
-    int hr = height(p->right);
-    auto cpp = p->parent;
-    recountHeight(p);
+    int hl = AVLheight(p->left);
+    int hr = AVLheight(p->right);
     if (abs(hl - hr) < 2) {
         return;
     }
+    auto cpp = p->parent;
+    recountHeight(p);
     if (hr == hl - 2) {
-        Node* q = p->left;
-        int hnl = height(q->left);
-        int hc = height(q->right);
-        if (hnl >= hc) {
-            p->left = q->right;
-            if (q->right != nullptr) q->right->parent = p;
-            q->right = p;
-            if (p != nullptr) p->parent = q;
-            p = q;
-        }
-        else {
-            Node* r = q->right;
-            p->left = r->right;
-            if (r->right != nullptr) r->right->parent = p;
-            q->right = r->left;
-            if (r->left != nullptr) r->left->parent = q;
-            r->left = q;
-            if (q != nullptr) q->parent = r;
-            r->right = p;
-            if (p != nullptr) p->parent = r;
-            p = r;
-        }
+        rotate_left(p);
     }
     else {
-        Node *q = p->right;
-        int hnr = height(q->right);
-        int hc = height(q->left);
-        if (hnr >= hc) {
-            p->right = q->left;
-            if (q->left != nullptr) q->left->parent = p;
-            q->left = p;
-            if (p != nullptr) p->parent = q;
-            p = q;
-        }
-        else {
-            Node* r = q->left;
-            p->right = r->left;
-            if (r->left != nullptr) r->left->parent = p;
-            q->left = r->right;
-            if (r->right != nullptr) r->right->parent = q;
-            r->left = p;
-            if (p != nullptr) p->parent = r;
-            r->right = q;
-            p = r;
-        }
+        rotate_right(p);
     }
     p->parent = cpp;
     recountHeight(p->left);
