@@ -62,6 +62,9 @@ void RB_tree::insertNode(Node* nw, Node*& cur, Node* p) {
 }
 
 void RB_tree::balance(Node*& p) {
+    if (p->parent == nullptr) {
+        return;
+    }
     if (!p->parent->color) {
         return;
     }
