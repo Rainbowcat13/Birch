@@ -14,10 +14,9 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 add_executable(Birch
         mainwindow.cpp
-        commoncode.cpp
         main.cpp
         AVL_tree.cpp
-        RB_tree.cpp
+#        RB_tree.cpp
         )
 
 target_link_libraries(Birch Qt5::Widgets)

@@ -1,9 +1,7 @@
 #ifndef BIRCH_RB_TREE_H
 #define BIRCH_RB_TREE_H
 #include "AVL_tree.h"
-#include "RB_tree.h"
 #include "Node.h"
-#include "commoncode.h"
 
 class RB_tree {
     Node *tree, *min, *max;
