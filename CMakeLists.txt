@@ -16,7 +16,8 @@ add_executable(Birch
         mainwindow.cpp
         main.cpp
         AVL_tree.cpp
-#        RB_tree.cpp
+        RB_tree.cpp
+        Splay_tree.cpp
         )
 
 target_link_libraries(Birch Qt5::Widgets)

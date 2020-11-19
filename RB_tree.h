@@ -1,22 +1,25 @@
 #ifndef BIRCH_RB_TREE_H
 #define BIRCH_RB_TREE_H
-#include "AVL_tree.h"
 #include "Node.h"
 
 class RB_tree {
-    Node *tree, *min, *max;
-    void balance(Node*& p);
-    void insertNode(Node* nw, Node*& cur, Node* p);
-//    void removeNode(Node* rm);
-//    Node* findNode(int val, Node* cur);
+    Node *tree;
+    void balanceInsert(Node*& x);
+    void balanceRemove(Node*& x);
+    void rotateLeft(Node *x);
+    void rotateRight(Node *x);
+    void removeNode(Node*& z);
+    int recountHeights(Node*& p);
 
 public:
     RB_tree();
-    void insert(int newValue);
-//    void remove(int value);
-//    Node* find(int value);
+    void insert(int key);
+    void remove(int key);
+    Node* find(int key);
     Node* begin();
     Node* end();
+    Node* get_tree();
+    void clear();
 };
 
 

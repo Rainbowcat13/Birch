@@ -1,10 +1,12 @@
 #ifndef BIRCH_NODE_H
 #define BIRCH_NODE_H
 #include <iostream>
+#include <QPoint>
 
 struct Node {
     Node *right, *left, *parent;
     int key, color, h;// T key
+    QPoint low, high;
 
     Node() {
         right = left = nullptr;
@@ -43,6 +45,11 @@ struct Node {
         }
         return nullptr;
     }
+
+    bool operator<(const Node* b) {
+        return b->key < key;
+    }
+
 };
 
 #endif

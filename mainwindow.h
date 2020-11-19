@@ -19,8 +19,12 @@
 #include <QGraphicsScene>
 #include <QGraphicsEllipseItem>
 #include <QGraphicsTextItem>
+#include <QComboBox>
 #include <QSet>
+#include <QPoint>
 #include "AVL_tree.h"
+#include "RB_tree.h"
+#include "Splay_tree.h"
 
 class MainWindow : public QMainWindow
 {
@@ -29,19 +33,27 @@ Q_OBJECT
 public:
     MainWindow(QWidget *parent = 0);
     void renderTree();
+    void renderLines(Node* p);
 
 public slots:
     void addNode();
     void deleteNode();
+    void changeCurrentTree(int type);
+    void clearCanvas();
 
 private:
     AVL_tree atree;
+    RB_tree rtree;
+    Splay_tree stree;
     QWidget* mCentralWidget;
     QFont mainFont;
+    QPen mainPen;
     QLineEdit *vertex;
-    QPushButton *del, *add;
+    QPushButton *del, *add, *clear;
     QGraphicsView* mainCanvas;
     QGraphicsScene* mainScene;
+    QComboBox* treeKind;
+    int currentTree;
 
 };
 
